@@ -1,0 +1,13 @@
+-- Jalankan di Supabase SQL Editor (sekali saja; aman diulang).
+-- Hak akses menu Persyaratan ujian per sub menu dan per tingkat kelas, untuk akun staf.
+--
+-- Bentuk isi kolom (jsonb):
+--   { "dashboard": "*", "absen-10": [7, 8], "tasmi": [9] }
+--   kunci  = sub menu (dashboard, absen-10, absen-semen, tasmi, taftisy, tathbiq, syahriyah, administrasi)
+--   "*"    = semua tingkat kelas
+--   [7, 8] = hanya siswa kelas tingkat 7 dan 8 (dibaca dari teks kelas di data siswa: "7A", "VII-B", dst.)
+--   sub menu yang tidak ada di peta = tidak boleh dibuka
+--
+-- NULL (bawaan) = tanpa pembatasan: akun staf lama yang sudah punya menu Persyaratan ujian tetap bisa membuka
+-- semua sub menu dan semua tingkat, sampai Administrator mengaturnya di menu Pengaturan.
+alter table public.users add column if not exists akses_persyaratan jsonb;
